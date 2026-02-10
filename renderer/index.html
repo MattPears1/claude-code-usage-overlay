@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CC Usage</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="overlay" class="overlay light">
+    <!-- Theme toggle -->
+    <div class="theme-row">
+      <button class="theme-toggle" id="themeToggle" title="Toggle theme">
+        <span class="toggle-track">
+          <span class="toggle-thumb"></span>
+        </span>
+        <span class="toggle-label" id="toggleLabel">LIGHT</span>
+      </button>
+    </div>
+
+    <!-- Session usage -->
+    <div class="usage-section" id="sectionSession">
+      <div class="usage-header">
+        <span class="usage-label">Current session</span>
+        <span class="usage-percent" id="sessionPercent">-- %</span>
+      </div>
+      <div class="bar-container">
+        <div class="bar-fill session-fill" id="sessionBar" style="width: 0%"></div>
+      </div>
+      <div class="usage-reset" id="sessionReset">Resets --</div>
+    </div>
+
+    <!-- Weekly usage (all models) -->
+    <div class="usage-section" id="sectionWeek">
+      <div class="usage-header">
+        <span class="usage-label">Current week <span class="usage-sublabel">(all models)</span></span>
+        <span class="usage-percent" id="weekPercent">-- %</span>
+      </div>
+      <div class="bar-container">
+        <div class="bar-fill week-fill" id="weekBar" style="width: 0%"></div>
+      </div>
+      <div class="usage-reset" id="weekReset">Resets --</div>
+    </div>
+
+    <!-- Weekly usage (Sonnet only) -->
+    <div class="usage-section" id="sectionSonnet">
+      <div class="usage-header">
+        <span class="usage-label">Current week <span class="usage-sublabel">(Sonnet only)</span></span>
+        <span class="usage-percent" id="sonnetPercent">-- %</span>
+      </div>
+      <div class="bar-container">
+        <div class="bar-fill sonnet-fill" id="sonnetBar" style="width: 0%"></div>
+      </div>
+      <div class="usage-reset" id="sonnetReset">Resets --</div>
+    </div>
+
+    <!-- Extra usage -->
+    <div class="usage-section" id="sectionExtra">
+      <div class="usage-header">
+        <span class="usage-label">Extra usage</span>
+        <span class="usage-percent" id="extraPercent">-- %</span>
+      </div>
+      <div class="bar-container">
+        <div class="bar-fill extra-fill" id="extraBar" style="width: 0%"></div>
+      </div>
+      <div class="usage-reset" id="extraReset">--</div>
+    </div>
+
+    <!-- Status bar -->
+    <div class="status-bar">
+      <span class="status-dot" id="statusDot"></span>
+      <span class="status-text" id="statusText">Starting...</span>
+      <button class="refresh-btn" id="refreshBtn" title="Refresh">&#x21bb;</button>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

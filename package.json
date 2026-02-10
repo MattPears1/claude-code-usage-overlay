@@ -1,0 +1,25 @@
+{
+  "name": "claude-code-usage-overlay",
+  "version": "1.0.0",
+  "description": "Always-on-top desktop overlay showing your Claude Code usage limits in real-time",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron . --dev"
+  },
+  "keywords": [
+    "claude",
+    "claude-code",
+    "usage",
+    "overlay",
+    "desktop-widget",
+    "electron",
+    "anthropic"
+  ],
+  "author": "Pears Research Services <pearsresearchservices@outlook.com>",
+  "license": "MIT",
+  "dependencies": {
+    "electron": "^33.0.0",
+    "node-pty": "^1.1.0"
+  }
+}

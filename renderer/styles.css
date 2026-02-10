@@ -1,0 +1,329 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  background: transparent;
+  overflow: hidden;
+  user-select: none;
+  font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+}
+
+/* ── Theme toggle row ── */
+.theme-row {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 6px;
+}
+
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.toggle-track {
+  position: relative;
+  width: 28px;
+  height: 14px;
+  border-radius: 7px;
+  transition: background 0.3s, box-shadow 0.3s;
+}
+
+.toggle-thumb {
+  position: absolute;
+  top: 2px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  transition: left 0.3s, background 0.3s, box-shadow 0.3s;
+}
+
+.toggle-label {
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  transition: color 0.3s;
+}
+
+/* ── LIGHT MODE (cyberpunk) ── default ── */
+.overlay.light .toggle-track {
+  background: rgba(0, 220, 255, 0.25);
+  box-shadow: 0 0 6px rgba(0, 220, 255, 0.3);
+}
+.overlay.light .toggle-thumb {
+  left: 2px;
+  background: #00dcff;
+  box-shadow: 0 0 4px #00dcff;
+}
+.overlay.light .toggle-label { color: #00899e; }
+
+/* ── DARK MODE toggle ── */
+.overlay.dark .toggle-track {
+  background: rgba(232, 160, 64, 0.25);
+  box-shadow: 0 0 6px rgba(232, 160, 64, 0.2);
+}
+.overlay.dark .toggle-thumb {
+  left: 16px;
+  background: #e8a040;
+  box-shadow: 0 0 4px #e8a040;
+}
+.overlay.dark .toggle-label { color: #888; }
+
+/* ── Overlay base ── */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 360px;
+  border-radius: 10px;
+  padding: 8px 16px 6px;
+  cursor: grab;
+  transition: background 0.4s, color 0.4s, border-color 0.4s, box-shadow 0.4s;
+}
+
+.overlay:active {
+  cursor: grabbing;
+}
+
+/* Light mode overlay */
+.overlay.light {
+  background: rgba(235, 240, 248, 0.95);
+  color: #1a1a2e;
+  border: 1px solid rgba(0, 220, 255, 0.2);
+  box-shadow: 0 2px 16px rgba(0, 180, 220, 0.12), 0 0 1px rgba(0, 220, 255, 0.3);
+}
+
+/* Dark mode overlay */
+.overlay.dark {
+  background: rgba(22, 22, 35, 0.94);
+  color: #e0e0e0;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+/* ── Usage sections ── */
+.usage-section {
+  margin-bottom: 8px;
+}
+
+.usage-section:last-of-type {
+  margin-bottom: 6px;
+}
+
+.usage-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 3px;
+}
+
+.usage-label {
+  font-size: 12px;
+  font-weight: 600;
+  transition: color 0.3s;
+}
+
+.overlay.light .usage-label { color: #0a0a1a; }
+.overlay.dark .usage-label { color: #ffffff; }
+
+.usage-sublabel {
+  font-weight: 400;
+  font-size: 10px;
+  transition: color 0.3s;
+}
+
+.overlay.light .usage-sublabel { color: #6a7a8e; }
+.overlay.dark .usage-sublabel { color: #888; }
+
+.usage-percent {
+  font-size: 12px;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  transition: color 0.3s;
+}
+
+.overlay.light .usage-percent { color: #4a5568; }
+.overlay.dark .usage-percent { color: #aaa; }
+
+/* ── Progress bars ── */
+.bar-container {
+  width: 100%;
+  height: 8px;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 2px;
+  transition: background 0.3s;
+}
+
+.overlay.light .bar-container {
+  background: rgba(0, 180, 220, 0.08);
+  border: 1px solid rgba(0, 220, 255, 0.1);
+}
+
+.overlay.dark .bar-container {
+  background: #2a2a3e;
+}
+
+.bar-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94), background 0.4s;
+  min-width: 0;
+}
+
+/* Light mode bar fills - neon cyberpunk */
+.overlay.light .session-fill {
+  background: linear-gradient(90deg, #00b4d8, #00dcff);
+  box-shadow: 0 0 6px rgba(0, 220, 255, 0.4);
+}
+
+.overlay.light .week-fill {
+  background: linear-gradient(90deg, #0077b6, #00b4d8, #00dcff);
+  box-shadow: 0 0 6px rgba(0, 180, 216, 0.4);
+}
+
+.overlay.light .sonnet-fill {
+  background: linear-gradient(90deg, #7b2ff7, #b34dff);
+  box-shadow: 0 0 6px rgba(179, 77, 255, 0.4);
+}
+
+.overlay.light .extra-fill {
+  background: linear-gradient(90deg, #e91e8c, #ff47b0);
+  box-shadow: 0 0 6px rgba(255, 71, 176, 0.4);
+}
+
+/* Dark mode bar fills */
+.overlay.dark .session-fill {
+  background: linear-gradient(90deg, #d4842a, #e8a040);
+}
+
+.overlay.dark .week-fill {
+  background: linear-gradient(90deg, #8b6914, #d4842a, #e8a040);
+}
+
+.overlay.dark .sonnet-fill {
+  background: linear-gradient(90deg, #2a7bd4, #40a0e8);
+}
+
+.overlay.dark .extra-fill {
+  background: linear-gradient(90deg, #6b3fa0, #9b59b6);
+}
+
+/* ── Color thresholds ── */
+.overlay.light .bar-fill.danger {
+  background: linear-gradient(90deg, #e65100, #ff6d00) !important;
+  box-shadow: 0 0 6px rgba(255, 109, 0, 0.5) !important;
+}
+
+.overlay.light .bar-fill.critical {
+  background: linear-gradient(90deg, #d00, #ff1744) !important;
+  box-shadow: 0 0 8px rgba(255, 23, 68, 0.6) !important;
+  animation: pulse-bar 1.5s ease-in-out infinite;
+}
+
+.overlay.dark .bar-fill.danger {
+  background: linear-gradient(90deg, #c0392b, #e74c3c) !important;
+}
+
+.overlay.dark .bar-fill.critical {
+  background: linear-gradient(90deg, #a00, #e00) !important;
+  animation: pulse-bar 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse-bar {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+/* ── Reset time text ── */
+.usage-reset {
+  font-size: 10px;
+  transition: color 0.3s;
+}
+
+.overlay.light .usage-reset { color: #7a8a9e; }
+.overlay.dark .usage-reset { color: #555; }
+
+/* ── Status bar ── */
+.status-bar {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding-top: 4px;
+  transition: border-color 0.3s;
+}
+
+.overlay.light .status-bar { border-top: 1px solid rgba(0, 180, 220, 0.12); }
+.overlay.dark .status-bar { border-top: 1px solid rgba(255, 255, 255, 0.05); }
+
+.status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #555;
+  flex-shrink: 0;
+}
+
+.status-dot.live { background: #2ecc71; }
+.status-dot.fetching { background: #f1c40f; animation: blink 1s infinite; }
+.status-dot.error { background: #e74c3c; }
+.status-dot.cached { background: #3498db; }
+
+.overlay.light .status-dot.live {
+  box-shadow: 0 0 4px rgba(46, 204, 113, 0.5);
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+.status-text {
+  font-size: 9px;
+  flex: 1;
+  transition: color 0.3s;
+}
+
+.overlay.light .status-text { color: #7a8a9e; }
+.overlay.dark .status-text { color: #555; }
+
+.refresh-btn {
+  background: none;
+  border: none;
+  font-size: 13px;
+  cursor: pointer;
+  padding: 2px 4px;
+  border-radius: 3px;
+  line-height: 1;
+  transition: color 0.2s, background 0.2s;
+}
+
+.overlay.light .refresh-btn { color: #7a8a9e; }
+.overlay.dark .refresh-btn { color: #555; }
+
+.overlay.light .refresh-btn:hover {
+  color: #00b4d8;
+  background: rgba(0, 180, 216, 0.1);
+}
+
+.overlay.dark .refresh-btn:hover {
+  color: #e8a040;
+  background: rgba(232, 160, 64, 0.1);
+}
+
+.refresh-btn.spinning {
+  animation: spin 1s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
