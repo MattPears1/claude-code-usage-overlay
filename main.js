@@ -220,6 +220,10 @@ ipcMain.on('set-size', (_, width, height) => {
   }
 });
 
+// Suppress EPIPE errors from console.log when pipes close
+process.stdout?.on('error', () => {});
+process.stderr?.on('error', () => {});
+
 // App lifecycle
 const gotLock = app.requestSingleInstanceLock();
 if (!gotLock) {
