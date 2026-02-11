@@ -381,22 +381,21 @@ html, body {
   background: none;
   border: none;
   cursor: pointer;
-  font-size: 9px;
+  font-size: 11px;
   line-height: 1;
   padding: 3px 5px;
   border-radius: 4px;
-  transition: color 0.2s, opacity 0.2s, background 0.2s;
-  opacity: 0.7;
+  transition: color 0.2s, background 0.2s;
+  color: #0077cc;
 }
 
 .dot-minimize-btn:hover {
-  opacity: 1;
+  color: #005fa3;
+  background: rgba(0, 119, 204, 0.1);
 }
 
-.overlay.light .dot-minimize-btn { color: #00718a; }
-.overlay.light .dot-minimize-btn:hover { background: rgba(0, 180, 216, 0.15); }
-.overlay.dark .dot-minimize-btn { color: #c0c0c0; }
-.overlay.dark .dot-minimize-btn:hover { background: rgba(232, 160, 64, 0.15); }
+.overlay.dark .dot-minimize-btn { color: #3399ff; }
+.overlay.dark .dot-minimize-btn:hover { color: #66b3ff; background: rgba(51, 153, 255, 0.1); }
 
 /* ── Mini mode ── */
 .mini-content {

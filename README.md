@@ -4,6 +4,8 @@
 
 **Always-on-top desktop widget that shows your Claude Code usage limits in real-time.**
 
+![Claude Code Usage Overlay](screenshot.png)
+
 Stop interrupting your workflow to check `/usage` — this overlay sits on your desktop and shows your session and weekly limits at a glance.
 
 Works with **Claude Max**, **Claude Pro**, and **Claude Team** subscriptions.
@@ -31,6 +33,8 @@ Bars turn **red and pulse** when usage hits 90%+, so you'll never get caught off
 - **Manual refresh** — click the refresh button or right-click the overlay
 - **System tray** — lives in your tray with opacity controls and quick actions
 - **Light / Dark mode** — cyberpunk light theme (default) or dark theme, toggle at the top
+- **Mini mode** — click any bar to collapse to a single compact bar; click the label to cycle through sections
+- **Dot mode** — minimize to a tiny draggable dot; changes color based on usage severity (normal/danger/critical)
 - **Position memory** — remembers where you placed it between sessions
 - **Cache fallback** — shows last known data if a fetch fails
 
@@ -93,6 +97,9 @@ Claude Code's `/usage` is a TUI-only command — it can't be accessed via `claud
 | **Refresh manually** | Click the **&#x21bb;** button, or **right-click** anywhere |
 | **Toggle theme** | Click the **LIGHT/DARK** toggle at the top |
 | **Change opacity** | Right-click the **system tray icon** → Opacity |
+| **Mini mode** | Click any **usage bar** to show just that bar; click the **label** to cycle sections |
+| **Dot mode** | Click the **blue dot** (top-left) to minimize to a tiny dot |
+| **Expand from mini/dot** | Click the bar area, the **expand button**, or **right-click** |
 | **Hide temporarily** | Close the window (click X or tray) — it hides to tray |
 | **Show again** | Click the **tray icon** |
 | **Quit** | Right-click **tray icon** → Quit |
@@ -178,8 +185,6 @@ Contributions welcome! Some ideas:
 - [ ] Notification when approaching limits
 - [ ] Historical usage tracking / graphs
 - [ ] Auto-start on system boot
-- [ ] Compact mini-mode (single bar)
-
 ---
 
 ## Contact
