@@ -47,11 +47,22 @@ html, body {
 }
 
 .toggle-label {
-  font-size: 8px;
+  font-size: 12px;
   font-weight: 700;
   letter-spacing: 1.5px;
   transition: color 0.3s;
 }
+
+/* ── Header reset time ── */
+.header-reset {
+  font-size: 13px;
+  font-weight: 600;
+  transition: color 0.3s;
+  white-space: nowrap;
+}
+
+.overlay.light .header-reset { color: #000000; }
+.overlay.dark .header-reset { color: #ffffff; }
 
 /* ── LIGHT MODE (cyberpunk) ── default ── */
 .overlay.light .toggle-track {
@@ -63,7 +74,7 @@ html, body {
   background: #00dcff;
   box-shadow: 0 0 4px #00dcff;
 }
-.overlay.light .toggle-label { color: #00899e; }
+.overlay.light .toggle-label { color: #000000; }
 
 /* ── DARK MODE toggle ── */
 .overlay.dark .toggle-track {
@@ -75,7 +86,7 @@ html, body {
   background: #e8a040;
   box-shadow: 0 0 4px #e8a040;
 }
-.overlay.dark .toggle-label { color: #888; }
+.overlay.dark .toggle-label { color: #ffffff; }
 
 /* ── Overlay base ── */
 .overlay {
@@ -96,7 +107,7 @@ html, body {
 /* Light mode overlay */
 .overlay.light {
   background: rgba(235, 240, 248, 0.95);
-  color: #1a1a2e;
+  color: #000000;
   border: 1px solid rgba(0, 220, 255, 0.2);
   box-shadow: 0 2px 16px rgba(0, 180, 220, 0.12), 0 0 1px rgba(0, 220, 255, 0.3);
 }
@@ -104,7 +115,7 @@ html, body {
 /* Dark mode overlay */
 .overlay.dark {
   background: rgba(22, 22, 35, 0.94);
-  color: #e0e0e0;
+  color: #ffffff;
   border: 1px solid rgba(255, 255, 255, 0.08);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
 }
@@ -126,32 +137,32 @@ html, body {
 }
 
 .usage-label {
-  font-size: 12px;
+  font-size: 16px;
   font-weight: 600;
   transition: color 0.3s;
 }
 
-.overlay.light .usage-label { color: #0a0a1a; }
+.overlay.light .usage-label { color: #000000; }
 .overlay.dark .usage-label { color: #ffffff; }
 
 .usage-sublabel {
   font-weight: 400;
-  font-size: 10px;
+  font-size: 14px;
   transition: color 0.3s;
 }
 
-.overlay.light .usage-sublabel { color: #6a7a8e; }
-.overlay.dark .usage-sublabel { color: #888; }
+.overlay.light .usage-sublabel { color: #000000; }
+.overlay.dark .usage-sublabel { color: #ffffff; }
 
 .usage-percent {
-  font-size: 12px;
+  font-size: 16px;
   font-weight: 500;
   font-variant-numeric: tabular-nums;
   transition: color 0.3s;
 }
 
-.overlay.light .usage-percent { color: #4a5568; }
-.overlay.dark .usage-percent { color: #aaa; }
+.overlay.light .usage-percent { color: #000000; }
+.overlay.dark .usage-percent { color: #ffffff; }
 
 /* ── Progress bars ── */
 .bar-container {
@@ -245,12 +256,12 @@ html, body {
 
 /* ── Reset time text ── */
 .usage-reset {
-  font-size: 10px;
+  font-size: 14px;
   transition: color 0.3s;
 }
 
-.overlay.light .usage-reset { color: #7a8a9e; }
-.overlay.dark .usage-reset { color: #555; }
+.overlay.light .usage-reset { color: #000000; }
+.overlay.dark .usage-reset { color: #ffffff; }
 
 /* ── Status bar ── */
 .status-bar {
@@ -287,18 +298,18 @@ html, body {
 }
 
 .status-text {
-  font-size: 9px;
+  font-size: 13px;
   flex: 1;
   transition: color 0.3s;
 }
 
-.overlay.light .status-text { color: #7a8a9e; }
-.overlay.dark .status-text { color: #555; }
+.overlay.light .status-text { color: #000000; }
+.overlay.dark .status-text { color: #ffffff; }
 
 .refresh-btn {
   background: none;
   border: none;
-  font-size: 13px;
+  font-size: 17px;
   cursor: pointer;
   padding: 2px 4px;
   border-radius: 3px;
@@ -306,8 +317,8 @@ html, body {
   transition: color 0.2s, background 0.2s;
 }
 
-.overlay.light .refresh-btn { color: #7a8a9e; }
-.overlay.dark .refresh-btn { color: #555; }
+.overlay.light .refresh-btn { color: #000000; }
+.overlay.dark .refresh-btn { color: #ffffff; }
 
 .overlay.light .refresh-btn:hover {
   color: #00b4d8;
@@ -381,20 +392,20 @@ html, body {
   background: none;
   border: none;
   cursor: pointer;
-  font-size: 11px;
+  font-size: 15px;
   line-height: 1;
   padding: 3px 5px;
   border-radius: 4px;
   transition: color 0.2s, background 0.2s;
-  color: #0077cc;
 }
 
-.dot-minimize-btn:hover {
+.overlay.light .dot-minimize-btn { color: #000000; }
+.overlay.light .dot-minimize-btn:hover {
   color: #005fa3;
   background: rgba(0, 119, 204, 0.1);
 }
 
-.overlay.dark .dot-minimize-btn { color: #3399ff; }
+.overlay.dark .dot-minimize-btn { color: #ffffff; }
 .overlay.dark .dot-minimize-btn:hover { color: #66b3ff; background: rgba(51, 153, 255, 0.1); }
 
 /* ── Mini mode ── */
@@ -402,7 +413,7 @@ html, body {
   display: none;
   align-items: center;
   gap: 8px;
-  height: 28px;
+  height: 36px;
   cursor: grab;
 }
 
@@ -425,26 +436,37 @@ html, body {
 .overlay.dark .mini-info:hover { background: rgba(255, 255, 255, 0.06); }
 
 .mini-label {
-  font-size: 10px;
+  font-size: 14px;
   font-weight: 600;
 }
 
-.overlay.light .mini-label { color: #0a0a1a; }
+.overlay.light .mini-label { color: #000000; }
 .overlay.dark .mini-label { color: #ffffff; }
 
 .mini-sep {
-  font-size: 10px;
-  opacity: 0.4;
+  font-size: 14px;
 }
 
+.overlay.light .mini-sep { color: #000000; }
+.overlay.dark .mini-sep { color: #ffffff; }
+
 .mini-percent {
-  font-size: 10px;
+  font-size: 14px;
   font-weight: 500;
   font-variant-numeric: tabular-nums;
 }
 
-.overlay.light .mini-percent { color: #4a5568; }
-.overlay.dark .mini-percent { color: #aaa; }
+.overlay.light .mini-percent { color: #000000; }
+.overlay.dark .mini-percent { color: #ffffff; }
+
+.mini-reset {
+  font-size: 13px;
+  font-weight: 400;
+  white-space: nowrap;
+}
+
+.overlay.light .mini-reset { color: #000000; }
+.overlay.dark .mini-reset { color: #ffffff; }
 
 .mini-bar-track {
   flex: 1;
@@ -472,11 +494,11 @@ html, body {
   background: none;
   border: none;
   cursor: pointer;
-  font-size: 10px;
+  font-size: 14px;
   line-height: 1;
   padding: 2px;
   border-radius: 3px;
-  opacity: 0.4;
+  opacity: 0.5;
   transition: opacity 0.2s, color 0.2s, background 0.2s;
   flex-shrink: 0;
 }
@@ -485,58 +507,74 @@ html, body {
   opacity: 1;
 }
 
-.overlay.light .mini-btn { color: #4a5568; }
+.overlay.light .mini-btn { color: #000000; }
 .overlay.light .mini-btn:hover { background: rgba(0, 180, 216, 0.1); }
-.overlay.dark .mini-btn { color: #888; }
+.overlay.dark .mini-btn { color: #ffffff; }
 .overlay.dark .mini-btn:hover { background: rgba(232, 160, 64, 0.1); }
 
-/* ── Dot mode ── */
+/* ── Dot mode (animated orb) ── */
 .dot-content {
   display: none;
   align-items: center;
   justify-content: center;
   width: 28px;
   height: 28px;
+  overflow: visible;
 }
 
 .dot-circle {
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
+  width: 20px;
+  height: 20px;
   cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.overlay.light .dot-circle {
-  background: linear-gradient(135deg, #00b4d8, #00dcff);
-  box-shadow: 0 0 6px rgba(0, 220, 255, 0.4);
-}
-
-.overlay.dark .dot-circle {
-  background: linear-gradient(135deg, #d4842a, #e8a040);
-  box-shadow: 0 0 6px rgba(232, 160, 64, 0.3);
+  background: linear-gradient(45deg, #ff6b6b, #feca57, #48dbfb, #ff9ff3, #54a0ff, #5f27cd, #ff6b6b);
+  background-size: 400% 400%;
+  animation: orb-morph 4s ease-in-out infinite, orb-colors 3s ease infinite, orb-glow 4s ease-in-out infinite;
+  transition: transform 0.2s;
 }
 
 .dot-circle:hover {
   transform: scale(1.3);
 }
 
-.overlay.light .dot-circle:hover {
-  box-shadow: 0 0 10px rgba(0, 220, 255, 0.6);
-}
-
-.overlay.dark .dot-circle:hover {
-  box-shadow: 0 0 10px rgba(232, 160, 64, 0.5);
-}
-
-/* Dot status colors */
+/* Danger orb */
 .dot-circle.dot-danger {
-  background: linear-gradient(135deg, #e65100, #ff6d00) !important;
-  box-shadow: 0 0 6px rgba(255, 109, 0, 0.5) !important;
+  background: linear-gradient(45deg, #ff6d00, #ffa726, #ff8a65, #ffcc02, #ff6d00) !important;
+  background-size: 400% 400% !important;
+  animation: orb-morph 3s ease-in-out infinite, orb-colors 2s ease infinite, orb-glow-danger 2s ease-in-out infinite !important;
 }
 
+/* Critical orb */
 .dot-circle.dot-critical {
-  background: linear-gradient(135deg, #d00, #ff1744) !important;
-  box-shadow: 0 0 8px rgba(255, 23, 68, 0.6) !important;
-  animation: pulse-bar 1.5s ease-in-out infinite;
+  background: linear-gradient(45deg, #ff1744, #ff5252, #ff8a80, #ff1744, #d50000) !important;
+  background-size: 400% 400% !important;
+  animation: orb-morph 2s ease-in-out infinite, orb-colors 1.5s ease infinite, orb-glow-critical 1s ease-in-out infinite !important;
+}
+
+@keyframes orb-morph {
+  0%, 100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+  25% { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; }
+  50% { border-radius: 50% 60% 30% 60% / 30% 60% 70% 40%; }
+  75% { border-radius: 60% 40% 60% 30% / 40% 70% 30% 60%; }
+}
+
+@keyframes orb-colors {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes orb-glow {
+  0%, 100% { box-shadow: 0 0 8px rgba(255, 107, 107, 0.6), 0 0 4px rgba(72, 219, 251, 0.3); }
+  33% { box-shadow: 0 0 8px rgba(72, 219, 251, 0.6), 0 0 4px rgba(254, 202, 87, 0.3); }
+  66% { box-shadow: 0 0 8px rgba(84, 160, 255, 0.6), 0 0 4px rgba(255, 159, 243, 0.3); }
+}
+
+@keyframes orb-glow-danger {
+  0%, 100% { box-shadow: 0 0 10px rgba(255, 109, 0, 0.7); }
+  50% { box-shadow: 0 0 14px rgba(255, 167, 38, 0.8); }
+}
+
+@keyframes orb-glow-critical {
+  0%, 100% { box-shadow: 0 0 10px rgba(255, 23, 68, 0.7); }
+  50% { box-shadow: 0 0 16px rgba(255, 82, 82, 0.9); }
 }

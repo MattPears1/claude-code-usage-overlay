@@ -18,11 +18,15 @@ const overlay = document.getElementById('overlay');
 const themeToggle = document.getElementById('themeToggle');
 const toggleLabel = document.getElementById('toggleLabel');
 
+// DOM elements - Header
+const headerReset = document.getElementById('headerReset');
+
 // DOM elements - Mode controls
 const dotBtn = document.getElementById('dotBtn');
 const miniInfo = document.getElementById('miniInfo');
 const miniLabel = document.getElementById('miniLabel');
 const miniPercent = document.getElementById('miniPercent');
+const miniReset = document.getElementById('miniReset');
 const miniBarFill = document.getElementById('miniBarFill');
 const miniExpandBtn = document.getElementById('miniExpandBtn');
 const miniDotBtn = document.getElementById('miniDotBtn');
@@ -30,8 +34,8 @@ const dotCircle = document.getElementById('dotCircle');
 
 // Window sizes for each mode
 const MODE_SIZES = {
-  full: { width: 360, height: 280 },
-  mini: { width: 360, height: 40 },
+  full: { width: 360, height: 340 },
+  mini: { width: 360, height: 48 },
   dot:  { width: 28,  height: 28 },
 };
 
@@ -138,10 +142,14 @@ function updateMiniDisplay() {
     miniPercent.textContent = pct + '%';
     miniBarFill.style.width = pct + '%';
     miniBarFill.className = 'bar-fill ' + config.fillClass + ' ' + getBarClass(pct);
+    // Show reset time in mini mode
+    const shortTime = extractShortTime(data.resetTime);
+    miniReset.textContent = shortTime || '';
   } else {
     miniPercent.textContent = '--%';
     miniBarFill.style.width = '0%';
     miniBarFill.className = 'bar-fill ' + config.fillClass;
+    miniReset.textContent = '';
   }
 }
 
@@ -166,6 +174,15 @@ function updateDotDisplay() {
   if (session) {
     dotCircle.title = 'Session: ' + session.percent + '% used\nClick to expand';
   }
+}
+
+// === Helpers ===
+
+function extractShortTime(resetTime) {
+  if (!resetTime) return '';
+  // Match time like "3:00 PM" or "15:00"
+  const match = resetTime.match(/\d{1,2}:\d{2}\s*(?:AM|PM)?/i);
+  return match ? match[0] : '';
 }
 
 // === Bar display ===
@@ -202,6 +219,14 @@ function updateDisplay(data) {
   // Hide sections with no data
   document.getElementById('sectionSonnet').style.display = data.weekSonnet ? 'block' : 'none';
   document.getElementById('sectionExtra').style.display = data.extra ? 'block' : 'none';
+
+  // Update header reset time from session data
+  if (data.session && data.session.resetTime) {
+    const shortTime = extractShortTime(data.session.resetTime);
+    headerReset.textContent = shortTime ? 'Resets ' + shortTime : 'Resets ' + data.session.resetTime;
+  } else {
+    headerReset.textContent = '';
+  }
 
   if (data.fromCache) {
     setStatus('cached', 'Cached data');
