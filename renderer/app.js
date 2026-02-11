@@ -1,4 +1,4 @@
-// DOM elements
+// DOM elements - Full mode
 const sessionBar = document.getElementById('sessionBar');
 const sessionPercent = document.getElementById('sessionPercent');
 const sessionReset = document.getElementById('sessionReset');
@@ -18,22 +18,146 @@ const overlay = document.getElementById('overlay');
 const themeToggle = document.getElementById('themeToggle');
 const toggleLabel = document.getElementById('toggleLabel');
 
+// DOM elements - Mode controls
+const dotBtn = document.getElementById('dotBtn');
+const miniInfo = document.getElementById('miniInfo');
+const miniLabel = document.getElementById('miniLabel');
+const miniPercent = document.getElementById('miniPercent');
+const miniBarFill = document.getElementById('miniBarFill');
+const miniExpandBtn = document.getElementById('miniExpandBtn');
+const miniDotBtn = document.getElementById('miniDotBtn');
+const dotCircle = document.getElementById('dotCircle');
+
+// Window sizes for each mode
+const MODE_SIZES = {
+  full: { width: 360, height: 280 },
+  mini: { width: 360, height: 40 },
+  dot:  { width: 28,  height: 28 },
+};
+
+// Section configuration
+const SECTION_CONFIG = {
+  session: { label: 'Session', fillClass: 'session-fill', dataKey: 'session' },
+  week:    { label: 'Week',    fillClass: 'week-fill',    dataKey: 'week' },
+  sonnet:  { label: 'Sonnet',  fillClass: 'sonnet-fill',  dataKey: 'weekSonnet' },
+  extra:   { label: 'Extra',   fillClass: 'extra-fill',   dataKey: 'extra' },
+};
+
+const SECTION_ORDER = ['session', 'week', 'sonnet', 'extra'];
+
+// State
+let latestData = null;
+let displayMode = localStorage.getItem('cc-overlay-mode') || 'full';
+let miniSection = localStorage.getItem('cc-overlay-mini-section') || 'session';
+let dragState = null;
+
 // Theme state
 const savedTheme = localStorage.getItem('cc-overlay-theme') || 'light';
-overlay.className = 'overlay ' + savedTheme;
+overlay.className = 'overlay ' + savedTheme + ' mode-' + displayMode;
 toggleLabel.textContent = savedTheme.toUpperCase();
 
 themeToggle.addEventListener('click', (e) => {
   e.stopPropagation();
   const isLight = overlay.classList.contains('light');
   const newTheme = isLight ? 'dark' : 'light';
-  overlay.className = 'overlay ' + newTheme;
+  overlay.className = 'overlay ' + newTheme + ' mode-' + displayMode;
   toggleLabel.textContent = newTheme.toUpperCase();
   localStorage.setItem('cc-overlay-theme', newTheme);
 });
 
-// Drag state
-let dragState = null;
+// === Display mode management ===
+
+function setDisplayMode(mode, section) {
+  displayMode = mode;
+  localStorage.setItem('cc-overlay-mode', mode);
+
+  if (section) {
+    miniSection = section;
+    localStorage.setItem('cc-overlay-mini-section', section);
+  }
+
+  // Update CSS classes (preserve theme)
+  const theme = overlay.classList.contains('dark') ? 'dark' : 'light';
+  overlay.className = 'overlay ' + theme + ' mode-' + mode;
+
+  // Resize window
+  const size = MODE_SIZES[mode];
+  window.overlayAPI.setSize(size.width, size.height);
+
+  // Update sub-displays
+  if (mode === 'mini' && latestData) updateMiniDisplay();
+  if (mode === 'dot' && latestData) updateDotDisplay();
+}
+
+function getVisibleSections() {
+  return SECTION_ORDER.filter(s => {
+    if (s === 'session' || s === 'week') return true;
+    if (s === 'sonnet') return !!latestData?.weekSonnet;
+    if (s === 'extra') return !!latestData?.extra;
+    return false;
+  });
+}
+
+function cycleSection() {
+  const visible = getVisibleSections();
+  const idx = visible.indexOf(miniSection);
+  miniSection = visible[(idx + 1) % visible.length];
+  localStorage.setItem('cc-overlay-mini-section', miniSection);
+  updateMiniDisplay();
+}
+
+function updateMiniDisplay() {
+  if (!latestData) return;
+
+  // Fall back to session if current section has no data
+  let config = SECTION_CONFIG[miniSection];
+  let data = latestData[config.dataKey];
+
+  if (!data) {
+    miniSection = 'session';
+    config = SECTION_CONFIG.session;
+    data = latestData.session;
+    localStorage.setItem('cc-overlay-mini-section', 'session');
+  }
+
+  miniLabel.textContent = config.label;
+
+  if (data) {
+    const pct = data.percent;
+    miniPercent.textContent = pct + '%';
+    miniBarFill.style.width = pct + '%';
+    miniBarFill.className = 'bar-fill ' + config.fillClass + ' ' + getBarClass(pct);
+  } else {
+    miniPercent.textContent = '--%';
+    miniBarFill.style.width = '0%';
+    miniBarFill.className = 'bar-fill ' + config.fillClass;
+  }
+}
+
+function updateDotDisplay() {
+  if (!latestData) return;
+
+  // Dot color reflects the most critical usage level
+  let maxClass = '';
+  for (const key of SECTION_ORDER) {
+    const config = SECTION_CONFIG[key];
+    const data = latestData[config.dataKey];
+    if (data) {
+      const cls = getBarClass(data.percent);
+      if (cls === 'critical') { maxClass = 'critical'; break; }
+      if (cls === 'danger' && maxClass !== 'critical') maxClass = 'danger';
+    }
+  }
+  dotCircle.className = 'dot-circle' + (maxClass ? ' dot-' + maxClass : '');
+
+  // Tooltip with session info
+  const session = latestData.session;
+  if (session) {
+    dotCircle.title = 'Session: ' + session.percent + '% used\nClick to expand';
+  }
+}
+
+// === Bar display ===
 
 function getBarClass(percent) {
   if (percent >= 90) return 'critical';
@@ -57,6 +181,8 @@ function updateSection(barEl, percentEl, resetEl, data, fillClass) {
 }
 
 function updateDisplay(data) {
+  latestData = data;
+
   updateSection(sessionBar, sessionPercent, sessionReset, data.session, 'session-fill');
   updateSection(weekBar, weekPercent, weekReset, data.week, 'week-fill');
   updateSection(sonnetBar, sonnetPercent, sonnetReset, data.weekSonnet, 'sonnet-fill');
@@ -72,6 +198,10 @@ function updateDisplay(data) {
     const time = new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
     setStatus('live', 'Updated ' + time);
   }
+
+  // Keep mini and dot in sync
+  updateMiniDisplay();
+  updateDotDisplay();
 }
 
 function setStatus(state, text) {
@@ -82,7 +212,8 @@ function setStatus(state, text) {
   }
 }
 
-// IPC listeners
+// === IPC listeners ===
+
 window.overlayAPI.onUsageData((data) => {
   updateDisplay(data);
 });
@@ -97,15 +228,37 @@ window.overlayAPI.onUsageStatus((status) => {
   }
 });
 
-// Refresh button
+// === Button handlers ===
+
 refreshBtn.addEventListener('click', (e) => {
   e.stopPropagation();
   window.overlayAPI.refreshUsage();
 });
 
-// Dragging
+dotBtn.addEventListener('click', (e) => {
+  e.stopPropagation();
+  setDisplayMode('dot');
+});
+
+miniExpandBtn.addEventListener('click', (e) => {
+  e.stopPropagation();
+  setDisplayMode('full');
+});
+
+miniDotBtn.addEventListener('click', (e) => {
+  e.stopPropagation();
+  setDisplayMode('dot');
+});
+
+miniInfo.addEventListener('click', (e) => {
+  e.stopPropagation();
+  cycleSection();
+});
+
+// === Dragging ===
+
 overlay.addEventListener('mousedown', async (e) => {
-  if (e.target === refreshBtn || e.target.closest('.refresh-btn') || e.target.closest('.theme-toggle')) return;
+  if (e.target.closest('button') || e.target.closest('.mini-info')) return;
   const pos = await window.overlayAPI.getPosition();
   dragState = {
     startScreenX: e.screenX,
@@ -128,12 +281,47 @@ document.addEventListener('mousemove', (e) => {
   }
 });
 
-document.addEventListener('mouseup', () => {
+document.addEventListener('mouseup', (e) => {
+  if (!dragState) return;
+  const wasDragged = dragState.dragged;
   dragState = null;
+
+  if (wasDragged) return;
+
+  // Handle non-drag clicks by mode
+  if (displayMode === 'dot') {
+    setDisplayMode('full');
+    return;
+  }
+
+  if (displayMode === 'mini') {
+    // Click on mini bar area (not buttons/info) expands to full
+    setDisplayMode('full');
+    return;
+  }
+
+  if (displayMode === 'full') {
+    // Click on a usage section enters mini mode for that section
+    const section = e.target.closest('.usage-section');
+    if (section && section.dataset.section) {
+      setDisplayMode('mini', section.dataset.section);
+    }
+  }
 });
 
-// Right-click = refresh
+// Right-click behaviour
 overlay.addEventListener('contextmenu', (e) => {
   e.preventDefault();
-  window.overlayAPI.refreshUsage();
+  if (displayMode === 'full') {
+    window.overlayAPI.refreshUsage();
+  } else {
+    // In mini or dot mode, right-click expands to full
+    setDisplayMode('full');
+  }
 });
+
+// === Initialize mode on load ===
+if (displayMode !== 'full') {
+  const size = MODE_SIZES[displayMode];
+  window.overlayAPI.setSize(size.width, size.height);
+}

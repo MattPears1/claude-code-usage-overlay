@@ -207,6 +207,19 @@ ipcMain.on('set-opacity', (_, val) => {
   mainWindow?.setOpacity(val);
 });
 
+ipcMain.on('set-size', (_, width, height) => {
+  if (!mainWindow) return;
+  mainWindow.setSize(Math.round(width), Math.round(height));
+  // Keep window on screen
+  const [x, y] = mainWindow.getPosition();
+  const { width: screenW, height: screenH } = screen.getPrimaryDisplay().workAreaSize;
+  const newX = Math.max(0, Math.min(x, screenW - width));
+  const newY = Math.max(0, Math.min(y, screenH - height));
+  if (newX !== x || newY !== y) {
+    mainWindow.setPosition(Math.round(newX), Math.round(newY));
+  }
+});
+
 // App lifecycle
 const gotLock = app.requestSingleInstanceLock();
 if (!gotLock) {

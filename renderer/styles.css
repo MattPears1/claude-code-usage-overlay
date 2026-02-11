@@ -14,7 +14,8 @@ html, body {
 /* ── Theme toggle row ── */
 .theme-row {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 6px;
 }
 
@@ -326,4 +327,217 @@ html, body {
 @keyframes spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
+}
+
+/* ── Mode visibility ── */
+.mode-full .full-content { display: block; }
+.mode-full .mini-content { display: none; }
+.mode-full .dot-content { display: none; }
+
+.mode-mini .full-content { display: none; }
+.mode-mini .mini-content { display: flex; }
+.mode-mini .dot-content { display: none; }
+
+.mode-dot .full-content { display: none; }
+.mode-dot .mini-content { display: none; }
+.mode-dot .dot-content { display: flex; }
+
+/* ── Overlay mode overrides ── */
+.overlay.mode-mini {
+  padding: 4px 10px;
+  border-radius: 8px;
+}
+
+.overlay.mode-dot {
+  width: 28px !important;
+  height: 28px;
+  padding: 0;
+  border: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  border-radius: 0;
+}
+
+/* ── Full mode section clickability ── */
+.mode-full .usage-section {
+  cursor: pointer;
+  border-radius: 6px;
+  padding: 2px 4px;
+  margin-left: -4px;
+  margin-right: -4px;
+  transition: background 0.2s;
+}
+
+.overlay.light.mode-full .usage-section:hover {
+  background: rgba(0, 180, 220, 0.06);
+}
+
+.overlay.dark.mode-full .usage-section:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+/* ── Dot minimize button (in theme row) ── */
+.dot-minimize-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 9px;
+  line-height: 1;
+  padding: 3px 5px;
+  border-radius: 4px;
+  transition: color 0.2s, opacity 0.2s, background 0.2s;
+  opacity: 0.7;
+}
+
+.dot-minimize-btn:hover {
+  opacity: 1;
+}
+
+.overlay.light .dot-minimize-btn { color: #00718a; }
+.overlay.light .dot-minimize-btn:hover { background: rgba(0, 180, 216, 0.15); }
+.overlay.dark .dot-minimize-btn { color: #c0c0c0; }
+.overlay.dark .dot-minimize-btn:hover { background: rgba(232, 160, 64, 0.15); }
+
+/* ── Mini mode ── */
+.mini-content {
+  display: none;
+  align-items: center;
+  gap: 8px;
+  height: 28px;
+  cursor: grab;
+}
+
+.mini-content:active {
+  cursor: grabbing;
+}
+
+.mini-info {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  flex-shrink: 0;
+  padding: 2px 4px;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+
+.overlay.light .mini-info:hover { background: rgba(0, 180, 220, 0.1); }
+.overlay.dark .mini-info:hover { background: rgba(255, 255, 255, 0.06); }
+
+.mini-label {
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.overlay.light .mini-label { color: #0a0a1a; }
+.overlay.dark .mini-label { color: #ffffff; }
+
+.mini-sep {
+  font-size: 10px;
+  opacity: 0.4;
+}
+
+.mini-percent {
+  font-size: 10px;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+
+.overlay.light .mini-percent { color: #4a5568; }
+.overlay.dark .mini-percent { color: #aaa; }
+
+.mini-bar-track {
+  flex: 1;
+  height: 6px;
+  border-radius: 3px;
+  overflow: hidden;
+  min-width: 40px;
+}
+
+.overlay.light .mini-bar-track {
+  background: rgba(0, 180, 220, 0.08);
+  border: 1px solid rgba(0, 220, 255, 0.1);
+}
+
+.overlay.dark .mini-bar-track {
+  background: #2a2a3e;
+}
+
+.mini-bar-track .bar-fill {
+  height: 100%;
+  border-radius: 3px;
+}
+
+.mini-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 10px;
+  line-height: 1;
+  padding: 2px;
+  border-radius: 3px;
+  opacity: 0.4;
+  transition: opacity 0.2s, color 0.2s, background 0.2s;
+  flex-shrink: 0;
+}
+
+.mini-btn:hover {
+  opacity: 1;
+}
+
+.overlay.light .mini-btn { color: #4a5568; }
+.overlay.light .mini-btn:hover { background: rgba(0, 180, 216, 0.1); }
+.overlay.dark .mini-btn { color: #888; }
+.overlay.dark .mini-btn:hover { background: rgba(232, 160, 64, 0.1); }
+
+/* ── Dot mode ── */
+.dot-content {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+}
+
+.dot-circle {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.overlay.light .dot-circle {
+  background: linear-gradient(135deg, #00b4d8, #00dcff);
+  box-shadow: 0 0 6px rgba(0, 220, 255, 0.4);
+}
+
+.overlay.dark .dot-circle {
+  background: linear-gradient(135deg, #d4842a, #e8a040);
+  box-shadow: 0 0 6px rgba(232, 160, 64, 0.3);
+}
+
+.dot-circle:hover {
+  transform: scale(1.3);
+}
+
+.overlay.light .dot-circle:hover {
+  box-shadow: 0 0 10px rgba(0, 220, 255, 0.6);
+}
+
+.overlay.dark .dot-circle:hover {
+  box-shadow: 0 0 10px rgba(232, 160, 64, 0.5);
+}
+
+/* Dot status colors */
+.dot-circle.dot-danger {
+  background: linear-gradient(135deg, #e65100, #ff6d00) !important;
+  box-shadow: 0 0 6px rgba(255, 109, 0, 0.5) !important;
+}
+
+.dot-circle.dot-critical {
+  background: linear-gradient(135deg, #d00, #ff1744) !important;
+  box-shadow: 0 0 8px rgba(255, 23, 68, 0.6) !important;
+  animation: pulse-bar 1.5s ease-in-out infinite;
 }
