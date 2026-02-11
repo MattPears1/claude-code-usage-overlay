@@ -6,11 +6,12 @@ const { fetchUsage } = require('./usage-fetcher');
 
 const POS_FILE = path.join(__dirname, '.overlay-position.json');
 const ICON_FILE = path.join(__dirname, '.tray-icon.png');
-const POLL_INTERVAL = 5 * 60 * 1000; // 5 minutes
+const POLL_INTERVAL = 10 * 1000; // 10 seconds (fetches take ~18s, guard prevents overlap)
 
 let mainWindow = null;
 let tray = null;
 let pollTimer = null;
+let isFetching = false;
 
 function loadPosition() {
   try {
@@ -176,6 +177,8 @@ function createWindow() {
 }
 
 async function refreshUsage() {
+  if (isFetching) return;
+  isFetching = true;
   try {
     mainWindow?.webContents.send('usage-status', 'fetching');
     const data = await fetchUsage();
@@ -187,6 +190,8 @@ async function refreshUsage() {
   } catch (err) {
     console.error('Failed to fetch usage:', err.message);
     mainWindow?.webContents.send('usage-status', 'error');
+  } finally {
+    isFetching = false;
   }
 }
 

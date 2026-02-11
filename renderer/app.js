@@ -50,6 +50,7 @@ let latestData = null;
 let displayMode = localStorage.getItem('cc-overlay-mode') || 'full';
 let miniSection = localStorage.getItem('cc-overlay-mini-section') || 'session';
 let dragState = null;
+let savedDotPosition = null; // Remembers where the dot was before expanding
 
 // Theme state
 const savedTheme = localStorage.getItem('cc-overlay-theme') || 'light';
@@ -67,7 +68,12 @@ themeToggle.addEventListener('click', (e) => {
 
 // === Display mode management ===
 
-function setDisplayMode(mode, section) {
+async function setDisplayMode(mode, section) {
+  // Save dot position before leaving dot mode so we can restore it later
+  if (displayMode === 'dot' && mode !== 'dot') {
+    savedDotPosition = await window.overlayAPI.getPosition();
+  }
+
   displayMode = mode;
   localStorage.setItem('cc-overlay-mode', mode);
 
@@ -83,6 +89,11 @@ function setDisplayMode(mode, section) {
   // Resize window
   const size = MODE_SIZES[mode];
   window.overlayAPI.setSize(size.width, size.height);
+
+  // Restore dot position when going back to dot mode
+  if (mode === 'dot' && savedDotPosition) {
+    window.overlayAPI.setPosition(savedDotPosition.x, savedDotPosition.y);
+  }
 
   // Update sub-displays
   if (mode === 'mini' && latestData) updateMiniDisplay();

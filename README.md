@@ -29,12 +29,12 @@ Bars turn **red and pulse** when usage hits 90%+, so you'll never get caught off
 
 - **Always on top** — floats above all windows, even the taskbar
 - **Draggable** — click and drag anywhere to reposition
-- **Auto-refresh** — polls your usage every 5 minutes
+- **Auto-refresh** — polls your usage every ~30 seconds (fetches every 10s with overlap protection)
 - **Manual refresh** — click the refresh button or right-click the overlay
 - **System tray** — lives in your tray with opacity controls and quick actions
 - **Light / Dark mode** — cyberpunk light theme (default) or dark theme, toggle at the top
-- **Mini mode** — click any bar to collapse to a single compact bar; click the label to cycle through sections
-- **Dot mode** — minimize to a tiny draggable dot; changes color based on usage severity (normal/danger/critical)
+- **Mini mode** — click any usage bar to collapse into a single compact bar showing just that metric; click the label to cycle through sections
+- **Dot mode** — minimize to a tiny draggable dot; changes color based on usage severity (normal/danger/critical). The dot stays pinned to its position — expanding and collapsing won't move it
 - **Position memory** — remembers where you placed it between sessions
 - **Cache fallback** — shows last known data if a fetch fails
 
@@ -81,7 +81,7 @@ Electron Overlay (UI)
                              Returns JSON to the Electron main process
 ```
 
-The overlay spawns a hidden Claude Code session every 5 minutes, sends `/usage`, captures the terminal output, parses out the usage percentages and reset times, then displays them in the overlay. The Claude session is immediately closed after each fetch.
+The overlay spawns a hidden Claude Code session every ~30 seconds, sends `/usage`, captures the terminal output, parses out the usage percentages and reset times, then displays them in the overlay. The Claude session is immediately closed after each fetch.
 
 ### Why a PTY?
 
@@ -97,7 +97,7 @@ Claude Code's `/usage` is a TUI-only command — it can't be accessed via `claud
 | **Refresh manually** | Click the **&#x21bb;** button, or **right-click** anywhere |
 | **Toggle theme** | Click the **LIGHT/DARK** toggle at the top |
 | **Change opacity** | Right-click the **system tray icon** → Opacity |
-| **Mini mode** | Click any **usage bar** to show just that bar; click the **label** to cycle sections |
+| **Mini mode** | Click any **usage bar** (e.g. Session, Week) to minimize and show just that bar; click the **label** to cycle sections |
 | **Dot mode** | Click the **blue dot** (top-left) to minimize to a tiny dot |
 | **Expand from mini/dot** | Click the bar area, the **expand button**, or **right-click** |
 | **Hide temporarily** | Close the window (click X or tray) — it hides to tray |
@@ -126,7 +126,7 @@ If installed but not found, the overlay checks these locations automatically:
 ### "Failed to fetch" / shows cached data
 
 - The first fetch takes ~20 seconds (Claude Code needs to start up)
-- If Claude Code is busy in another terminal, the fetch may time out — it will retry in 5 minutes
+- If Claude Code is busy in another terminal, the fetch may time out — it will retry shortly
 - Check that you're authenticated: run `claude` in a terminal and verify it starts
 
 ### Overlay not visible
@@ -171,7 +171,7 @@ The overlay auto-detects your Claude Code installation. No configuration needed.
 If you want to customize the poll interval, edit `main.js`:
 
 ```javascript
-const POLL_INTERVAL = 5 * 60 * 1000; // Change to desired interval in ms
+const POLL_INTERVAL = 10 * 1000; // Change to desired interval in ms (default: 10s)
 ```
 
 ---
